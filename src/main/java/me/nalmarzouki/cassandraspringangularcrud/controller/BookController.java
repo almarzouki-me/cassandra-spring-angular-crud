@@ -11,28 +11,26 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.CrossOrigin; 
 import org.springframework.web.server.ServerErrorException;
 
-import me.nalmarzouki.cassandraspringangularcrud.model.Author;
-import me.nalmarzouki.cassandraspringangularcrud.service.AuthorService;
+import me.nalmarzouki.cassandraspringangularcrud.model.Book;
+import me.nalmarzouki.cassandraspringangularcrud.service.BookService;
 
 @RestController
 @RequestMapping("/")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
-public class AuthorController {
+public class BookController {
     @Autowired
-    private AuthorService authorService;
+    private BookService bookService;
 
-    @PostMapping("/authors")
-    public ResponseEntity<String> createAuthor(@RequestBody Author author) {
+    @PostMapping("/books")
+    public ResponseEntity<String> createAuthor(@RequestBody Book book) {
         try {
-            Author tempAuthor = authorService.createAuthor(author);
-            if (tempAuthor == null) {
-                return new ResponseEntity<String>("Author: " + author.toString() + " already exists",
+            Book tempBook = bookService.createBook(book);
+            if (tempBook == null) {
+                return new ResponseEntity<String>("Book: " + book.toString() + " already exists",
                         HttpStatus.OK);
             } else {
-                return new ResponseEntity<String>("Author: " + author.toString() + " created successfully: ",
+                return new ResponseEntity<String>("Book: " + book.toString() + " created successfully: ",
                         HttpStatus.OK);
             }
         } catch (ServerErrorException e) {
@@ -41,24 +39,24 @@ public class AuthorController {
         }
     }
 
-    @GetMapping("/authors")
-    public ResponseEntity<String> readAuthors() {
+    @GetMapping("/books")
+    public ResponseEntity<String> readBooks() {
         try {
-            return new ResponseEntity<String>(authorService.readAuthors().toString(), HttpStatus.OK);
+            return new ResponseEntity<String>(bookService.readBooks().toString(), HttpStatus.OK);
         } catch (ServerErrorException e) {
             e.printStackTrace();
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("/authors/{id}")
-    public ResponseEntity<String> readAuthor(@PathVariable String id) {
+    @GetMapping("/books/{id}")
+    public ResponseEntity<String> readBook(@PathVariable String id) {
         try {
-            Author author = authorService.readAuthor(id);
-            if (author != null) {
-                return new ResponseEntity<String>(author.toString(), HttpStatus.OK);
+            Book book = bookService.readBook(id);
+            if (book != null) {
+                return new ResponseEntity<String>(book.toString(), HttpStatus.OK);
             } else {
-                return new ResponseEntity<String>("Author with id: " + id + "  is not found",
+                return new ResponseEntity<String>("Book with id: " + id + "  is not found",
                         HttpStatus.OK);
             }
         } catch (ServerErrorException e) {
@@ -67,15 +65,15 @@ public class AuthorController {
         }
     }
 
-    @PutMapping("/authors/{id}")
-    public ResponseEntity<String> updateAuthor(@PathVariable String id, @RequestBody Author author) {
+    @PutMapping("/books/{id}")
+    public ResponseEntity<String> updateBook(@PathVariable String id, @RequestBody Book book) {
         try {
-            Author tempAuthor = authorService.updateAuthor(id, author);
-            if (tempAuthor != null) {
-                return new ResponseEntity<String>("Author with id: " + id + " updated sccuessfully",
+            Book tempBook = bookService.updateBook(id, book);
+            if (tempBook != null) {
+                return new ResponseEntity<String>("Book with id: " + id + " updated sccuessfully",
                         HttpStatus.OK);
             } else {
-                return new ResponseEntity<String>("Author with id: " + id + " doesn't exist",
+                return new ResponseEntity<String>("Book with id: " + id + " doesn't exist",
                         HttpStatus.OK);
             }
         } catch (ServerErrorException e) {
@@ -84,15 +82,15 @@ public class AuthorController {
         }
     }
 
-    @DeleteMapping("/authors/{id}")
-    public ResponseEntity<String> deleteAuthor(@PathVariable String id) {
+    @DeleteMapping("/books/{id}")
+    public ResponseEntity<String> deleteBook(@PathVariable String id) {
         try {
-            Author author = authorService.deleteAuthor(id);
-            if (author != null) {
-                return new ResponseEntity<String>("Author with id: " + id + " deleted sccuessfully",
+            Book book = bookService.deleteBook(id);
+            if (book != null) {
+                return new ResponseEntity<String>("Book with id: " + id + " deleted sccuessfully",
                         HttpStatus.OK);
             } else {
-                return new ResponseEntity<String>("Author with id: " + id + " doesn't exist",
+                return new ResponseEntity<String>("Book with id: " + id + " doesn't exist",
                         HttpStatus.OK);
             }
         } catch (ServerErrorException e) {
@@ -101,11 +99,11 @@ public class AuthorController {
         }
     }
 
-    @DeleteMapping("/authors")
-    public ResponseEntity<String> deleteAuthors() {
+    @DeleteMapping("/books")
+    public ResponseEntity<String> deleteBooks() {
         try {
-            authorService.deleteAuthors();
-            return new ResponseEntity<String>("authors deleted successfully ", HttpStatus.OK);
+            bookService.deleteBooks();
+            return new ResponseEntity<String>("books deleted successfully ", HttpStatus.OK);
         } catch (ServerErrorException e) {
             e.printStackTrace();
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

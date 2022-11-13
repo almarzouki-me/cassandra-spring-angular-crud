@@ -19,13 +19,9 @@ public class AuthorService {
         if (!tempAuthor.isPresent()) {
             authorRepository.save(author);
             return author;
+        } else {
+            return null;
         }
-
-        return null;
-    }
-
-    public List<Author> readAuthors() {
-        return authorRepository.findAll();
     }
 
     public Author readAuthor(String id) {
@@ -35,6 +31,10 @@ public class AuthorService {
         } else {
             return null;
         }
+    }
+
+    public List<Author> readAuthors() {
+        return authorRepository.findAll();
     }
 
     public Author updateAuthor(String id, Author author) {
