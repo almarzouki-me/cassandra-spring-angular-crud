@@ -1,7 +1,5 @@
 package me.nalmarzouki.cassandraspringangularcrud.model;
 
-import java.util.List;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
 import org.springframework.data.cassandra.core.mapping.CassandraType;
@@ -21,15 +19,15 @@ public class Author {
     @CassandraType(type = Name.TEXT)
     private String name;
 
-    @CassandraType(type = Name.LIST, typeArguments = Name.TEXT)
-    private List<String> books;
+    // @CassandraType(type = Name.LIST, typeArguments = Name.TEXT)
+    // private List<String> books;
 
     @Override
     public String toString() {
         return "{" +
                 " id='" + getId() + "'" +
                 ", name='" + getName() + "'" +
-                ", books='" + getBooks() + "'" +
+                // ", books='" + getBooks() + "'" +
                 "}";
     }
 }

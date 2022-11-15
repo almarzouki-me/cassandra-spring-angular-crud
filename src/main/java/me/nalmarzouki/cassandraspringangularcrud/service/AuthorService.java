@@ -42,7 +42,7 @@ public class AuthorService {
 
         if (tempAuthor.isPresent()) {
             tempAuthor.get().setName(author.getName());
-            tempAuthor.get().setBooks(author.getBooks());
+            // tempAuthor.get().setBooks(author.getBooks());
             authorRepository.save(tempAuthor.get());
 
             return tempAuthor.get();

@@ -1,5 +1,7 @@
 package me.nalmarzouki.cassandraspringangularcrud.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.CrossOrigin; 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.server.ServerErrorException;
 
 import me.nalmarzouki.cassandraspringangularcrud.model.Author;
@@ -25,29 +27,27 @@ public class AuthorController {
     private AuthorService authorService;
 
     @PostMapping("/authors")
-    public ResponseEntity<String> createAuthor(@RequestBody Author author) {
+    public Author createAuthor(@RequestBody Author author) {
         try {
             Author tempAuthor = authorService.createAuthor(author);
             if (tempAuthor == null) {
-                return new ResponseEntity<String>("Author: " + author.toString() + " already exists",
-                        HttpStatus.OK);
+                return author;
             } else {
-                return new ResponseEntity<String>("Author: " + author.toString() + " created successfully: ",
-                        HttpStatus.OK);
+                return null;
             }
         } catch (ServerErrorException e) {
             e.printStackTrace();
-            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return null;
         }
     }
 
     @GetMapping("/authors")
-    public ResponseEntity<String> readAuthors() {
+    public List<Author> readAuthors() {
         try {
-            return new ResponseEntity<String>(authorService.readAuthors().toString(), HttpStatus.OK);
+            return authorService.readAuthors();
         } catch (ServerErrorException e) {
             e.printStackTrace();
-            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return null;
         }
     }
 
@@ -85,19 +85,17 @@ public class AuthorController {
     }
 
     @DeleteMapping("/authors/{id}")
-    public ResponseEntity<String> deleteAuthor(@PathVariable String id) {
+    public Author deleteAuthor(@PathVariable String id) {
         try {
             Author author = authorService.deleteAuthor(id);
             if (author != null) {
-                return new ResponseEntity<String>("Author with id: " + id + " deleted sccuessfully",
-                        HttpStatus.OK);
+                return author;
             } else {
-                return new ResponseEntity<String>("Author with id: " + id + " doesn't exist",
-                        HttpStatus.OK);
+                return null;
             }
         } catch (ServerErrorException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return null;
         }
     }
 
